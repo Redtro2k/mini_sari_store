@@ -8,9 +8,12 @@
     "require": {
         "php": "^8.3",
         "ariaieboy/filament-currency": "^3.0",
+        "devletes/filament-progress-bar": "^1.1",
         "filament/filament": "^5.7",
+        "jccoca/filament-chart-palette": "^1.0",
         "laravel/framework": "^13.17",
         "laravel/tinker": "^3.0",
+        "milon/barcode": "^13.1",
         "yousefaman/filament-autosave": "^1.0"
     },
     "require-dev": {

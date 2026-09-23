@@ -1,9 +1,9 @@
 <?php
 
+use App\Models\Categories as Category;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Categories as Category;
 
 return new class extends Migration
 {
@@ -20,7 +20,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('price');
             $table->decimal('selling_price');
-            $table->decimal('stock_quantity');
+            $table->enum('unit', ['kg', 'pcs', 'box', 'liter', 'meters'])->default('pcs');
+            $table->decimal('stock_quantity', 10, 3);
             $table->boolean('is_active');
             $table->text('note')->nullable();
             $table->timestamps();

@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/css/filament/store/theme.css'],
+            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/js/sale-camera.js', 'resources/css/filament/store/theme.css'],
             refresh: true,
             fonts: [
                 bunny('Instrument Sans', {
@@ -16,6 +16,9 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    build: {
+        rollupOptions: { preserveEntrySignatures: 'strict' },
+    },
     server: {
         watch: {
             ignored: ['**/storage/framework/views/**'],

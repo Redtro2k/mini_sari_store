@@ -2,16 +2,18 @@
 
 namespace App\Filament\Resources\Products\Schemas;
 
+use App\Enums\Unit as UnitEnums;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class ProductForm
 {
-    
     public static function configure(Schema $schema): Schema
     {
         return $schema
@@ -64,9 +66,15 @@ class ProductForm
                     ->rows(4)
                     ->autosize(),
                 Grid::make()
-                    ->columns(2)
+                    ->columns(3)
                     ->schema([
+                        Select::make('unit')
+                            ->options(UnitEnums::class)
+                            ->default(UnitEnums::PCS)
+                            ->native(false)
+                            ->required(),
                         TextInput::make('stock_quantity')
+                            ->columnSpan(2)
                             ->label('Opening stock')
                             ->placeholder('0')
                             ->helperText('Enter the quantity currently available in inventory.')
@@ -74,18 +82,25 @@ class ProductForm
                             ->minValue(0)
                             ->default(0)
                             ->required(),
-                        Radio::make('is_active')
-                            ->label('Product status')
-                            ->helperText('Inactive products remain saved but are not available for use.')
-                            ->inline()
-                            ->boolean(),
                     ]),
+                Radio::make('is_active')
+                    ->label('Product status')
+                    ->helperText('Inactive products remain saved but are not available for use.')
+                    ->inline()
+                    ->boolean(),
                 Textarea::make('note')
                     ->label('Internal note')
                     ->placeholder('Add optional purchasing, storage, or inventory notes')
                     ->helperText('Only staff can see this note.')
                     ->rows(3)
                     ->autosize(),
+                FileUpload::make('images')
+                    ->directory('product-images')
+                    ->multiple()
+                    ->getUploadedFileNameForStorageUsing(
+                        fn (TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
+                            ->prepend('product-images-'),
+                    ),
             ]);
     }
 }
